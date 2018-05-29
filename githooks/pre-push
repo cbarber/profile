@@ -1,0 +1,17 @@
+#!/bin/bash
+
+while read local_ref local_sha remote_ref remote_sha
+do
+    if [[ $remote_ref =~ /master$ ]]
+    then
+        read -p "You're about to push master, is that what you intended? (y|n) " -n 1 -r < /dev/tty
+        if ! [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            echo
+            echo "Aborting!"
+            exit 1 
+        fi
+    fi
+done
+
+exit 0

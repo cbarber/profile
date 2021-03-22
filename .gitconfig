@@ -72,6 +72,8 @@ delete-merged-branches = "!git co master && git branch --merged | grep -v '\\*' 
 
 diffstat = "!git diff --shortstat"
 
+rewrite = "rebase -x 'git commit --amend -C HEAD --date=\"$(date -R)\" && sleep 1.05'"
+
 [push]
 	default = simple
 [core]

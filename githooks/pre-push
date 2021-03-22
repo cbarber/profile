@@ -12,6 +12,16 @@ do
             exit 1 
         fi
     fi
+    if [[ $remote_ref =~ /main$ ]]
+    then
+        read -p "You're about to push main, is that what you intended? (y|n) " -n 1 -r < /dev/tty
+        if ! [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            echo
+            echo "Aborting!"
+            exit 1 
+        fi
+    fi
 done
 
 exit 0

@@ -31,9 +31,9 @@ Plugin 'junegunn/fzf.vim'
 " syntax
 Plugin 'pangloss/vim-javascript'
 Plugin 'sheerun/vim-polyglot'
-" Plugin 'vim-syntastic/syntastic'
 Plugin 'w0rp/ale'
 Plugin 'elixir-lang/vim-elixir'
+Plugin 'dart-lang/dart-vim-plugin'
 
 " Plugin 'neomake/neomake'
 " autocmd! BufWritePost * Neomake
@@ -44,7 +44,6 @@ Plugin 'jreybert/vimagit'
 Plugin 'tpope/vim-fugitive'
 Plugin 'christoomey/vim-conflicted'
 
-Plugin 'scrooloose/vimfiles'
 Plugin 'tpope/vim-rails'
 Plugin 'kchmck/vim-coffee-script'
 
@@ -56,6 +55,9 @@ Plugin 'fatih/vim-go'
 
 " elixr / phoenix
 Plugin 'c-brenn/phoenix.vim'
+
+" bundle
+Plugin 'rust-lang/rust.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

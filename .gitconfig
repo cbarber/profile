@@ -76,6 +76,8 @@ rewrite = "rebase -x 'git commit --amend -C HEAD --date=\"$(date -R)\" && sleep 
 
 reset-to-origin = "!git reset --hard origin/$(git branch-name)"
 
+compare-force="!git diff origin/$(git branch-name)...$(git branch-name)"
+
 [push]
 	default = simple
 [core]

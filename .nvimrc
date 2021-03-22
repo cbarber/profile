@@ -54,7 +54,19 @@ Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#sources = {'rust': ['ale', 'racer']}
 
+" let g:racer_cmd = "/home/cbarber/.cargo/bin/racer"
+" let g:racer_experimental_completer = 1
+" let g:racer_insert_paren = 1
+
+let g:rustfmt_autosave = 1
+
+" let g:ale_rust_rls_toolchain = 'nightly-YYYY-MM-DD'
+
+let g:ale_fix_on_save = 1
+let g:airline#extensions#ale#enabled = 1
 
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:

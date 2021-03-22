@@ -74,6 +74,8 @@ diffstat = "!git diff --shortstat"
 
 rewrite = "rebase -x 'git commit --amend -C HEAD --date=\"$(date -R)\" && sleep 1.05'"
 
+reset-to-origin = "!git reset --hard origin/$(git branch-name)"
+
 [push]
 	default = simple
 [core]

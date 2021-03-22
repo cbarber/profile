@@ -99,6 +99,10 @@ set statusline+=%*
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_check_on_wq = 0
 
+" highlight trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
 let g:qfenter_keymap = {}
 let g:qfenter_keymap.vopen = ['<C-v>']
 let g:qfenter_keymap.hopen = ['<C-CR>', '<C-s>', '<C-x>']

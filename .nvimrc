@@ -67,6 +67,8 @@ let g:rustfmt_autosave = 1
 
 let g:ale_fix_on_save = 1
 let g:airline#extensions#ale#enabled = 1
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:

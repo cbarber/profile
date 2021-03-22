@@ -75,7 +75,7 @@ diffstat = "!git diff --shortstat"
 [push]
 	default = simple
 [core]
-	hooksPath = ~/config/githooks/
+	hooksPath = /home/cbarber/src/githooks/
 
 [mergetool "vimdiff"]
         trustExitCode = false

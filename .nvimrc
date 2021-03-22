@@ -5,8 +5,6 @@ set autoindent
 set number
 filetype indent on
 
-set exrc " per-project config
-
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -14,53 +12,50 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.fzf
 
-call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-Plugin 'vim-airline/vim-airline'
-Plugin 'scrooloose/nerdtree'
-" Plugin 'ctrlpvim/ctrlp.vim' " hate ctrlp
-Plugin 'yssl/QFEnter'
-Plugin 'junegunn/fzf.vim'
-
+call plug#begin()
+Plug 'vim-airline/vim-airline'
+Plug 'scrooloose/nerdtree'
+Plug 'yssl/QFEnter'
+Plug 'junegunn/fzf.vim'
 
 " syntax
-Plugin 'pangloss/vim-javascript'
-Plugin 'sheerun/vim-polyglot'
-Plugin 'w0rp/ale'
-Plugin 'elixir-lang/vim-elixir'
-Plugin 'dart-lang/dart-vim-plugin'
+Plug 'pangloss/vim-javascript'
+Plug 'sheerun/vim-polyglot'
+Plug 'w0rp/ale'
+Plug 'elixir-editors/vim-elixir'
+Plug 'dart-lang/dart-vim-plugin'
 
-" Plugin 'neomake/neomake'
-" autocmd! BufWritePost * Neomake
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " git integration
-Plugin 'airblade/vim-gitgutter'
-Plugin 'jreybert/vimagit'
-Plugin 'tpope/vim-fugitive'
-Plugin 'christoomey/vim-conflicted'
+Plug 'airblade/vim-gitgutter'
+Plug 'jreybert/vimagit'
+Plug 'tpope/vim-fugitive'
+Plug 'christoomey/vim-conflicted'
 
-Plugin 'tpope/vim-rails'
-Plugin 'kchmck/vim-coffee-script'
+Plug 'tpope/vim-rails'
+Plug 'kchmck/vim-coffee-script'
 
 " javascript
-Plugin 'hotoo/jsgf.vim'
+Plug 'hotoo/jsgf.vim'
 
 " go
-Plugin 'fatih/vim-go'
+Plug 'fatih/vim-go'
 
-" elixr / phoenix
-Plugin 'c-brenn/phoenix.vim'
+" rust
+Plug 'rust-lang/rust.vim'
 
-" bundle
-Plugin 'rust-lang/rust.vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'joshdick/onedark.vim'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+call plug#end()
+
+
+
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
@@ -97,4 +92,7 @@ let g:qfenter_keymap.topen = ['<C-t>']
 
 let g:airline_powerline_fonts = 1
 
+colorscheme onedark
+
+set exrc " per-project config
 set secure " prevent unsafe commands in per-project config

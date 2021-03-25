@@ -43,6 +43,10 @@ merge-difftool = "!git difftool `git merge-span ... $1`"
 # Interactively rebase all the commits on the current branch
 rebase-branch = "!git rebase -i `git merge-base master HEAD`"
 
+branch-log = "!git log $(git branch-name) --not $(git for-each-ref --format='%(refname)' refs/heads/ | grep -v \"refs/heads/$(git branch-name)\")"
+
+bb-branch-log = "!git branch-log --format=\"* %B\" --reverse"
+
 #
 # Working with files
 #

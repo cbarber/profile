@@ -3,6 +3,7 @@ set expandtab
 set smartindent
 set autoindent
 set number
+set guifont="UbuntuMono Nerd Font Regular"
 filetype indent on
 
 set nocompatible              " be iMproved, required

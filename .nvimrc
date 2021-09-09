@@ -18,7 +18,9 @@ set rtp+=~/.fzf
 
 call plug#begin()
 Plug 'vim-airline/vim-airline'
-Plug 'scrooloose/nerdtree'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
 Plug 'yssl/QFEnter'
 Plug 'junegunn/fzf.vim'
 
@@ -85,7 +87,6 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Stupid javascript indenting from somewhere. Maybe find a better plugin
 autocmd FileType javascript set tabstop=2|set shiftwidth=2

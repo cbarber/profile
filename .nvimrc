@@ -13,9 +13,6 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.fzf
 
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
 call plug#begin()
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -30,11 +27,9 @@ Plug 'sheerun/vim-polyglot'
 Plug 'elixir-editors/vim-elixir'
 Plug 'dart-lang/dart-vim-plugin'
 
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'nvim-lua/completion-nvim'
-Plug 'nvim-lua/lsp-status.nvim'
 
 " git integration
 Plug 'airblade/vim-gitgutter'
@@ -61,9 +56,6 @@ call plug#end()
 
 " LSP configuration
 lua << END
-local lsp_status = require('lsp-status')
-lsp_status.register_progress()
-
 local lspconfig = require('lspconfig')
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -93,8 +85,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
   -- Forward to other plugins
-  require'completion'.on_attach(client)
-  require'lsp-status'.on_attach(client)
+  require'completion'.on_attach(client, bufnr)
 end
 
 local servers = { "rust_analyzer" }
@@ -114,6 +105,38 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = true,
   }
 )
+
+-- local cmp = require'cmp'
+-- cmp.setup({
+--   -- Enable LSP snippets
+--   snippet = {
+--     expand = function(args)
+--         vim.fn["vsnip#anonymous"](args.body)
+--     end,
+--   },
+--   mapping = {
+--     ['<C-p>'] = cmp.mapping.select_prev_item(),
+--     ['<C-n>'] = cmp.mapping.select_next_item(),
+--     -- Add tab support
+--     ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+--     ['<Tab>'] = cmp.mapping.select_next_item(),
+--     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+--     ['<C-f>'] = cmp.mapping.scroll_docs(4),
+--     ['<C-Space>'] = cmp.mapping.complete(),
+--     ['<C-e>'] = cmp.mapping.close(),
+--     ['<CR>'] = cmp.mapping.confirm({
+--       behavior = cmp.ConfirmBehavior.Insert,
+--       select = true,
+--     })
+--   },
+-- 
+--   -- Installed sources
+--   sources = {
+--     { name = 'nvim_lsp' },
+--     { name = 'path' },
+--     { name = 'buffer' },
+--   },
+-- })
 END
 
 
@@ -146,16 +169,6 @@ autocmd StdinReadPre * let s:std_in=1
 " Stupid javascript indenting from somewhere. Maybe find a better plugin
 autocmd FileType javascript set tabstop=2|set shiftwidth=2
 
-" Syntax defaults
-set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-
 " highlight trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
@@ -168,15 +181,7 @@ let g:qfenter_keymap.topen = ['<C-t>']
 let g:airline_powerline_fonts = 1
 let g:airline_theme='onedark'
 
-function! LspStatus() abort
-  let status = luaeval('require("lsp-status").status()')
-  return trim(status)
-endfunction
-call airline#parts#define_function('lsp_status', 'LspStatus')
-call airline#parts#define_condition('lsp_status', 'luaeval("#vim.lsp.buf_get_clients() > 0")')
-
 let g:airline#extensions#nvimlsp#enabled = 0
-let g:airline_section_x = airline#section#create(['lsp_status'])
 
 colorscheme onedark
 

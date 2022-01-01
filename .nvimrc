@@ -29,7 +29,15 @@ Plug 'dart-lang/dart-vim-plugin'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
-Plug 'nvim-lua/completion-nvim'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'rafamadriz/friendly-snippets'
 
 " git integration
 Plug 'airblade/vim-gitgutter'
@@ -85,60 +93,48 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
   -- Forward to other plugins
-  require'completion'.on_attach(client, bufnr)
+  -- require'completion'.on_attach(client, bufnr)
 end
 
-local servers = { "rust_analyzer" }
+local cmp = require('cmp')
+cmp.setup({
+  snippet = {
+    -- REQUIRED - you must specify a snippet engine
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+    end,
+  },
+  mapping = {
+    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+    ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+    ['<C-e>'] = cmp.mapping({
+      i = cmp.mapping.abort(),
+      c = cmp.mapping.close(),
+    }),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  },
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'vsnip' }, -- For vsnip users.
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local servers = { "solargraph", "rust_analyzer" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,
-    }
+    },
+    capabilities = capabilities,
   }
 end
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-    signs = true,
-    update_in_insert = true,
-  }
-)
-
--- local cmp = require'cmp'
--- cmp.setup({
---   -- Enable LSP snippets
---   snippet = {
---     expand = function(args)
---         vim.fn["vsnip#anonymous"](args.body)
---     end,
---   },
---   mapping = {
---     ['<C-p>'] = cmp.mapping.select_prev_item(),
---     ['<C-n>'] = cmp.mapping.select_next_item(),
---     -- Add tab support
---     ['<S-Tab>'] = cmp.mapping.select_prev_item(),
---     ['<Tab>'] = cmp.mapping.select_next_item(),
---     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
---     ['<C-f>'] = cmp.mapping.scroll_docs(4),
---     ['<C-Space>'] = cmp.mapping.complete(),
---     ['<C-e>'] = cmp.mapping.close(),
---     ['<CR>'] = cmp.mapping.confirm({
---       behavior = cmp.ConfirmBehavior.Insert,
---       select = true,
---     })
---   },
--- 
---   -- Installed sources
---   sources = {
---     { name = 'nvim_lsp' },
---     { name = 'path' },
---     { name = 'buffer' },
---   },
--- })
 END
-
 
 " Enable type inlay hints
 autocmd CursorHold,CursorHoldI *.rs :lua require'lsp_extensions'.inlay_hints{ only_current_line = false }
@@ -148,6 +144,11 @@ autocmd CursorHold,CursorHoldI *.rs :lua require'lsp_extensions'.inlay_hints{ on
 " noinsert: Do not insert text until a selection is made
 " noselect: Do not select, force user to select one from the menu
 set completeopt=menuone,noinsert,noselect
+
+let g:vsnip_filetypes = {}
+let g:vsnip_filetypes.ruby = ['rails', 'ruby']
+let g:vsnip_filetypes.javascriptreact = ['javascript']
+let g:vsnip_filetypes.typescriptreact = ['typescript']
 
 let g:rustfmt_autosave = 1
 

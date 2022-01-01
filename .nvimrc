@@ -45,6 +45,8 @@ Plug 'jreybert/vimagit'
 Plug 'tpope/vim-fugitive'
 Plug 'christoomey/vim-conflicted'
 
+Plug 'akinsho/toggleterm.nvim'
+
 Plug 'tpope/vim-rails'
 Plug 'kchmck/vim-coffee-script'
 
@@ -134,6 +136,8 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
+
+require("toggleterm").setup{}
 END
 
 " Enable type inlay hints

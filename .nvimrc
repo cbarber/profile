@@ -72,7 +72,7 @@ local on_attach = function(client, bufnr)
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   --Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
@@ -96,10 +96,14 @@ local on_attach = function(client, bufnr)
 
   -- Forward to other plugins
   -- require'completion'.on_attach(client, bufnr)
+  client.resolved_capabilities.document_formatting = true
 end
 
 local cmp = require('cmp')
 cmp.setup({
+  completion = {
+     autocomplete = false, -- disable auto-completion.
+  },
   snippet = {
     -- REQUIRED - you must specify a snippet engine
     expand = function(args)
@@ -125,10 +129,17 @@ cmp.setup({
   })
 })
 
+vim.cmd([[
+  inoremap <C-x><C-o> <Cmd>lua require('cmp').complete()<CR>
+]])
+  -- inoremap <C-x><C-o> <Cmd>lua vimrc.cmp.lsp()<CR>
+  -- inoremap <C-x><C-s> <Cmd>lua vimrc.cmp.snippet()<CR>
+
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local servers = { "solargraph", "rust_analyzer" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
+    init_options = {formatting = true},
     on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,

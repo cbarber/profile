@@ -4,6 +4,7 @@ set smartindent
 set autoindent
 set number
 set guifont="UbuntuMono Nerd Font Regular"
+set nowrap
 filetype indent on
 
 set nocompatible              " be iMproved, required

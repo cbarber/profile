@@ -101,6 +101,9 @@ commit-with-rebase-message="!git commit -F (git rev-parse --git-dir)/rebase-merg
 [merge]
         tool = vimdiff
 
+[mergetool "vimdiff"]
+  path = nvim
+
 # [merge-tools]
 #         vimdiff.executable = vimdiff
 #         vimdiff.args = 

@@ -1,6 +1,7 @@
-[user]
-	email = craigb@mojotech.com
-	name = Craig Barber
+[includeIf "gitdir:~/handydev/"]
+  path = ~/configs/.gitconfig-handy
+[includeIf "gitdir:~/src/"]
+  path = ~/configs/.gitconfig-mojo
 
 [alias]
 #

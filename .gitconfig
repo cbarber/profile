@@ -2,6 +2,8 @@
   path = ~/configs/.gitconfig-handy
 [includeIf "gitdir:~/src/"]
   path = ~/configs/.gitconfig-mojo
+[includeIf "gitdir:~/configs/"]
+  path = ~/configs/.gitconfig-mojo
 
 [alias]
 #

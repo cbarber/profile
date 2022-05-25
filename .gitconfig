@@ -15,6 +15,9 @@ co = checkout
 # From: https://gist.github.com/robmiller/6018582
 ###################################################
 
+# Gets the default branch from the origin remote. 
+# Needs network connectivity :(
+default-branch-name = "!git remote show origin | sed -n '/HEAD branch/s/.*: //p'"
 # Get the current branch name (not so useful in itself, but used in
 # other aliases)
 branch-name = "!git rev-parse --abbrev-ref HEAD"
@@ -23,10 +26,10 @@ branch-name = "!git rev-parse --abbrev-ref HEAD"
 publish = "!git push -u origin $(git branch-name)"
 # Delete the remote version of the current branch
 unpublish = "!git push origin :$(git branch-name)"
-# Delete a branch and recreate it from master — useful if you have, say,
-# a development branch and a master branch and they could conceivably go
+# Delete a branch and recreate it from master/main — useful if you have, say,
+# a development branch and a master/main branch and they could conceivably go
 # out of sync
-recreate = "!f() { [[ -n $@ ]] && git checkout \"$@\" && git unpublish && git checkout master && git branch -D \"$@\" && git checkout -b \"$@\" && git publish; }; f"
+recreate = "!f() { [[ -n $@ ]] && git checkout \"$@\" && git unpublish && git checkout $(git default-branch-name) && git branch -D \"$@\" && git checkout -b \"$@\" && git publish; }; f"
 
 # Fire up your difftool (e.g. Kaleidescope) with all the changes that
 # are on the current branch.
@@ -44,7 +47,7 @@ merge-diff = "!git diff `git merge-span ... $1`"
 merge-difftool = "!git difftool `git merge-span ... $1`"
 
 # Interactively rebase all the commits on the current branch
-rebase-branch = "!git rebase -i `git merge-base master HEAD`"
+rebase-branch = "!git rebase -i `git merge-base $(git default-branch-name) HEAD`"
 
 branch-log = "!git log $(git branch-name) --not $(git for-each-ref --format='%(refname)' refs/heads/ | grep -v \"refs/heads/$(git branch-name)\")"
 
@@ -73,9 +76,9 @@ ours = "!f() { git checkout --ours $@ && git add $@; }; f"
 # Checkout their version of a file and add it
 theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 
-# Delete any branches that have been merged into master
+# Delete any branches that have been merged into master/main
 # See also: https://gist.github.com/robmiller/5133264
-delete-merged-branches = "!git co master && git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+delete-merged-branches = "!git co $(git default-branch-name) && git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 diffstat = "!git diff --shortstat"
 
@@ -111,3 +114,8 @@ commit-with-rebase-message="!git commit -F (git rev-parse --git-dir)/rebase-merg
 #         vimdiff.executable = vimdiff
 #         vimdiff.args = 
 #         vimdiff.premerge = keep
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

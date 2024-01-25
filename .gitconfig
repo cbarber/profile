@@ -88,7 +88,7 @@ reset-to-origin = "!git reset --hard origin/$(git branch-name)"
 
 compare-force="!git diff origin/$(git branch-name)...$(git branch-name)"
 
-commit-with-rebase-message="!git commit -F (git rev-parse --git-dir)/rebase-merge/message"
+commit-with-rebase-message="!git commit -F $(git rev-parse --git-dir)/rebase-merge/message"
 
 [push]
 	default = simple

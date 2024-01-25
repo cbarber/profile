@@ -110,7 +110,7 @@ preview-rebase="!git log --oneline $(git branch-name)..$1"
         tool = vimdiff
 
 [mergetool "vimdiff"]
-  path = nvim
+  path = lvim
 
 # [merge-tools]
 #         vimdiff.executable = vimdiff
@@ -121,3 +121,14 @@ preview-rebase="!git log --oneline $(git branch-name)..$1"
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[difftool "idiff"]
+	cmd = diff --ignore-all-space --unified=3 --ignore-case $LOCAL $REMOTE
+	prompt = 0
+[difftool]
+	prompt = 0
+[init]
+	defaultBranch = main
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+[core]
+	editor = lvim

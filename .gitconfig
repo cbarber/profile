@@ -90,6 +90,8 @@ compare-force="!git diff origin/$(git branch-name)...$(git branch-name)"
 
 commit-with-rebase-message="!git commit -F $(git rev-parse --git-dir)/rebase-merge/message"
 
+preview-rebase="!git log --oneline $(git branch-name)..$1"
+
 [push]
 	default = simple
 [core]
